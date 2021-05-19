@@ -38,7 +38,7 @@ For Linux, the use of `node-hci-socket` is recommended which implements these re
 
 This method starts a scan. Either none or both of `scanWindow` and `scanInterval` must be present. Note that these are just suggested values. If there are multiple concurrent scanners and/or pending connections the real scan window and scan interval may be set to compromised values. The default values (16 and 16) will only be used if there are no other concurrent scans and/or pending connections with other suggested values.
 
-Multiple scans can be started concurrently. (While the outer behaviour is that multiple scans are active at the same time, the library only really issues one scan internally.)
+Multiple scans can be started concurrently. (While the outer behaviour is that multiple scans are active at the same time, the stack only really issues one scan internally.)
 
 If `filterDuplicates` is active, there will be a cache with maximum size of 1024 devices. If this limit is reached old entries might not be filtered away the next time those devices advertise again.
 
@@ -307,3 +307,63 @@ If this event is listened to, the callback must be called with a boolean paramet
 * reason {number} A HCI error code indicating the reason for disconnecting
 
 This event indicates the link has finally been terminated. All objects having this connection as parent (or grandparent) are now considered dead, such as `gatt`, `smp`, `l2capCoCManager` and every GATT characteristic object etc. Any pending callback relating to those objects will not be called.
+
+## Errors
+
+List of HCI Error codes.
+
+```javascript
+const NodeBleHost = require('node-ble-host');
+const HciErrors = NodeBleHost.HciErrors;
+```
+
+## Integer constants
+
+The defined constants below are properties of `HciErrors`. It is a subset of error codes that should be usable within a BLE context.
+
+Bluetooth SIG assigned constants:
+
+```javascript
+SUCCESS: 0x00
+UNKNOWN_CONNECTION_IDENTIFIER: 0x02
+HARDWARE_FAILURE: 0x03
+AUTHENTICATION_FAILURE: 0x05
+PIN_OR_KEY_MISSING: 0x06
+MEMORY_CAPACITY_EXCEEDED: 0x07
+CONNECTION_TIMEOUT: 0x08
+CONNECTION_LIMIT_EXCEEDED: 0x09
+CONNECTION_ALREADY_EXISTS: 0x0B
+COMMAND_DISALLOWED: 0x0C
+CONNECTION_REJECTED_DUE_TO_LIMITED_RESOURCES: 0x0D
+CONNECTION_REJECTED_DUE_TO_SECURITY_REASONS: 0x0E
+UNSUPPORTED_FEATURE_OR_PARAMETER_VALUE: 0x11
+INVALID_HCI_COMMAND_PARAMETERS: 0x12
+REMOTE_USER_TERMINATED_CONNECTION: 0x13
+REMOTE_DEVICE_TERMINATED_CONNECTION_DUE_TO_LOW_RESOURCES: 0x14
+REMOTE_DEVICE_TERMINATED_CONNECTION_DUE_TO_POWER_OFF: 0x15
+CONNECTION_TERMINATED_BY_LOCAL_HOST: 0x16
+REPEATED_ATTEMPTS: 0x17
+PAIRING_NOT_ALLOWED: 0x18
+UNSUPPORTED_REMOTE_FEATURE: 0x1A
+INVALID_LL_PARAMETERS: 0x1E
+UNSPECIFIED_ERROR: 0x1F
+UNSUPPORTED_LL_PARAMETER_VALUE: 0x20
+LL_RESPONSE_TIMEOUT: 0x22
+LL_PROCEDURE_COLLISION: 0x23
+INSTANT_PASSED: 0x28
+DIFFERENT_TRANSACTION_COLLISION: 0x2A
+PARAMETER_OUT_OF_MANDATORY_RANGE: 0x30
+CONTROLLER_BUSY: 0x3A
+UNACCEPTABLE_CONNECTION_PARAMETERS: 0x3B
+ADVERTISING_TIMEOUT: 0x3C
+CONNECTION_TERMINATED_DUE_TO_MIC_FAILURE: 0x3D
+CONNECTION_FAILED_TO_BE_ESTABLISHED: 0x3E
+LIMIT_REACHED: 0x43
+OPERATION_CANCELLED_BY_HOST: 0x44
+PACKET_TOO_LONG: 0x45
+```
+
+## HciErrors.toString(code)
+* `code` {integer} Error code
+
+Returns the corresponding key (e.g. `SUCCESS`) for a given code, or `(unknown)` if not one of the above.

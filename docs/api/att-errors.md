@@ -1,6 +1,6 @@
 # Att Errors
 
-List of Attribute protocol errors
+List of Attribute protocol errors.
 
 ```javascript
 const NodeBleHost = require('node-ble-host');

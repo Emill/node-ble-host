@@ -17,7 +17,7 @@ This class is used to register PSMs and create CoC connections. Each BLE connect
 
 Creates a CoC between this device and the remote device, for a PSM that the remote device has registered.
 
-Callback should take two arguments `result` and `coc`, where `result` is an integer from `L2CAPCoCErrors` and `coc` is an `L2CAPCoC` object (`undefined` if result was not success).
+Callback should take two arguments `result` and `l2capCoC`, where `result` is an integer from `L2CAPCoCErrors` and `l2capCoC` is an `L2CAPCoC` object (`undefined` if result was not success).
 
 ### l2capCoCManager.registerLePsm(lePsm, onRequestCallback)
 * `lePsm` {number} Integer in the range 0x0001 - 0x00ff which identifies the protocol/service to register

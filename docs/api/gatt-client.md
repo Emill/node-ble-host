@@ -161,6 +161,16 @@ Performs the Write Without Response procedure, which is not a request. Therefore
 
 The value will be truncated to `currentMtu - 3` bytes.
 
+### characteristic.writeCCCD(enableNotifications, enableIndications[, callback])
+* `enableNotifications` {boolean} If notifications should be enabled
+* `enableIndications` {boolean} If indications should be enabled
+* `callback` {Function}
+  * `err` {number} An `AttErrors` code
+
+Utility function for first finding a Client Characteristic Configuration Descriptor, then writing the desired value to it.
+
+If no descriptor is found, the callback will be called with `AttErrors.ATTRIBUTE_NOT_FOUND` as error code. Otherwise, the code passed to the callback will be the result of the write.
+
 ### Event: 'change'
 * `value` {Buffer} The value notified / indicated
 * `isIndication` {boolean} If it is an indication (true) or notification (false)

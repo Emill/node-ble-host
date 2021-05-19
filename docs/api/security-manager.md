@@ -5,10 +5,10 @@ In SMP, the device in master role is called the initiator and the device in slav
 
 ## Pairing features object
 Where the type PairingFeatures object is used, it should be an object having the following properties (all are optional and may therefore be undefined):
-* `ioCap` {number} A constant that describes the current device's IO capabilities (default: NoInputNoOutput)
+* `ioCap` {number} A constant that describes the current device's IO capabilities (default: `IOCapabilities.NO_INPUT_NO_OUTPUT`), see `IOCapabilities` for allowed values
 * `bondingFlags` {number} 1 if a bond is requested, i.e. the resulting keys should be stored persistently, otherwise 0 (default: 1)
 * `mitm` {boolean} Whether MITM protection is requested (default: false)
-* `sc` {boolean} Whether Secure Connections is requested (default: true)
+* `sc` {boolean} Whether Secure Connections is supported (default: true)
 * `keypress` {boolean} Whether Keypress Notifications are supported (default: false)
 * `maxKeySize` {number} Integer between 7 and 16 with max key size to be negotiated (default: 16)
 * `initKeyDistr` {Object} The keys which the initiator should distribute
@@ -50,7 +50,7 @@ Note: This method is only available for the master role.
 ### smp.sendSecurityRequest(bond, mitm, sc, keypress)
 * `bond` {boolean} Whether a bond is requested, i.e. if pairing is to be performed, the resulting keys should be stored persistently
 * `mitm` {boolean} Whether MITM protection is requested
-* `sc` {boolean} Whether the Secure Connections pairing model is requested
+* `sc` {boolean} Whether the Secure Connections pairing model is supported
 * `keypress` {boolean} Whether Keypress Notifications are supported
 
 If the SMP is in the idle state, this method will send a Security Request to the master device. If the master has an LTK for this device, it should start encryption. If not (or if the link is already encrypted), it should start pairing.
@@ -94,6 +94,14 @@ Whether a bond exists to the current device.
 
 Whether a bond exists to the current device and an LTK is available that can be used to start the encryption.
 
+### smp.availableLtkSecurityLevel
+{Object}
+  * `mitm` {boolean} Whether MITM protection was used for the key available
+  * `sc` {boolean} Whether Secure Connections were used to generate the key available
+  * `keySize` {number} The key size of the key available
+
+The security properties for the available LTK, that can be used to start the encryption. This value will be `null` if no key exists.
+
 ### Event: 'pairingRequest'
 For a device in the slave role:
 * `req` {PairingFeatures} The pairing request
@@ -122,7 +130,7 @@ This event will be emitted when the pairing features have been combined from the
 If there is no listener for this event, the pairing features will automatically be accepted, unless for some cases if the device is already bonded and the current role is master (see `pairingRequest` under no listener).
 
 ### Event: 'passkeyExchange'
-* `associationModel` {number} A constant defining which association model being used
+* `associationModel` {number} A constant defining which association model being used, see `AssociationModels`
 * `userPasskey` {string} or {null} A passkey to display to the user
 * `callback` {Function} Callback for passing an entered passkey
   * `passkeyResponse` {number}, {string} or {undefined} A 6-digit passkey the user has entered or `undefined` if the numeric comparison accociation model is used
@@ -138,6 +146,7 @@ Can be emitted during the Passkey Exchange when the remote device sends passkey 
 * `res` {Object} Result
   * `sc` {boolean} Whether Secure Connections were used
   * `mitm` {boolean} Whether MITM protection was used
+  * `bond` {boolean} Whether bonding occurred
   * `rspEdiv` {number} or {null} 16-bit unsigned Encrypted Diversifier that identifies the responder's LTK
   * `rspRand` {Buffer} or {null} 8-byte Random Value that identifies the responder's LTK
   * `rspLtk` {Buffer} or {null} The responder's LTK
@@ -153,7 +162,7 @@ Can be emitted during the Passkey Exchange when the remote device sends passkey 
     * `addressType` {string} `public` or `random`
     * `address` {string} BD ADDR
 
-This event is emitted when the pairing has completed successfully. The `rspIrk` and `rspIdentityAddress` will be `undefined` if the current device is the responder, and the `initIrk` and `initIdentityAddress` will never be `undefined` if the current device is the initiator. The other keys and key identifiers will be present if those were distributed, otherwise `null`.
+This event is emitted when the pairing has completed successfully. The `rspIrk` and `rspIdentityAddress` will be `undefined` if the current device is the responder, and the `initIrk` and `initIdentityAddress` will be `undefined` if the current device is the initiator. The other keys and key identifiers will be present if those were distributed, otherwise `null`.
 
 ### Event: 'pairingFailed'
 * `reason` {number} Reason code (see the Errors section below for a list of codes)
@@ -169,6 +178,8 @@ The pairing has failed and the state for SMP is now idle.
   * `keySize` {number} The key size of the key in use
 
 Emitted when the encryption has started, or encryption failed to start. A common error code for when encryption fails to start is the Pin or Key Missing error code.
+
+When in the slave role, the only possible non-success error code is `HciErrors.PIN_OR_KEY_MISSING` which will be emitted when the master tries to start encryption for a key we don't possess.
 
 ### Event: 'timeout'
 Emitted when the pairing protocol times out (30 seconds after the last packet). When this happens, no more SMP packets can be exchanged anymore on this link. If there are no listeners for this event, the BLE connection will be disconnected.
@@ -209,3 +220,47 @@ CROSS_TRANSPORT_KEY_DERIVATION_GENERATION_NOT_ALLOWED: 0x0e
 * `code` {integer} Error code
 
 Returns the corresponding key (e.g. `PASSKEY_ENTRY_FAILED`) for a given code, or `(unknown)` if not one of the above.
+
+## IOCapabilities
+
+Enumeration of I/O capabilities.
+
+```javascript
+const NodeBleHost = require('node-ble-host');
+const IOCapabilities = NodeBleHost.IOCapabilities;
+```
+
+```javascript
+DISPLAY_ONLY: 0x00
+DISPLAY_YES_NO: 0x01
+KEYBOARD_ONLY: 0x02
+NO_INPUT_NO_OUTPUT: 0x03
+KEYBOARD_DISPLAY: 0x04
+```
+
+### IOCapabilities.toString(value)
+* `value` {integer} Feature
+
+Returns the corresponding key (e.g. `DISPLAY_ONLY`) for a given code, or `(unknown)` if not one of the above.
+
+## AssociationModels
+
+Enumeration of association models.
+
+```javascript
+const NodeBleHost = require('node-ble-host');
+const AssociationModels = NodeBleHost.AssociationModels;
+```
+
+```javascript
+JUST_WORKS: 0
+PASSKEY_ENTRY_INIT_INPUTS: 1
+PASSKEY_ENTRY_RSP_INPUTS: 2
+PASSKEY_ENTRY_BOTH_INPUTS: 3
+NUMERIC_COMPARISON: 4
+```
+
+### AssociationModels.toString(value)
+* `value` {integer} Association model
+
+Returns the corresponding key (e.g. `JUST_WORKS`) for a given code, or `(unknown)` if not one of the above.

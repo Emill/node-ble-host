@@ -28,7 +28,7 @@ Sets the Appearance characteristic.
 ### gettDb.getSvccCharacteristic()
 * Returns: {GattServerCharacteristic} The Service Changed Characteristic
 
-Returns the Service Changed Characteristic in the GATT service which is automatically created. Use this to send indications if the GATT DB is changed.
+Returns the Service Changed Characteristic in the GATT service which is automatically created. Use this to send indications if the GATT DB is changed. The stack never sends indications on its own if the GATT DB is changed, so this must be done manually by the user.
 
 ### gattDb.addServices(services)
 * `services` {GattServerService[]} Array of services
@@ -71,6 +71,15 @@ Optional property. Default: empty array.
 {number}
 
 Optional property. Positive 16-bit unsigned integer of a proposed start handle. If the property exists and the service fits at this position, it will be used. Otherwise it is placed directly after the last current service. This algorithm is run for each service in the same order as declared in the `services` argument to `gattDb.addServices`.
+
+Once the service is added, this property will be set to the actual start handle by the stack.
+
+### service.endHandle
+{number}
+
+This property is never read when the service is added, but is rather just assigned the actual end handle by the stack when the service has been added.
+
+This can be useful after a change of GATT services in the database, when we need to tell the client about the range of changed handles using the Service Changed Characteristic.
 
 ### service.characteristics
 {GattServiceCharacteristic[]}

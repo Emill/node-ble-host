@@ -209,7 +209,7 @@ Contains the peer address for this connection.
 
 {string} or {null}
 
-Contains the address type of the identity address of the peer device. This will be equal to `connection.peerAddressType` if a public or static random address is used. Otherwise it will be `null` unless the address could be resolved using the an IRK in the bond storage. If the address could be resolved, this value will contain the address type of the identity address. The identity address, compared to a resolvable address, doesn't change and can hence be used as an identifier.
+Contains the address type of the identity address of the peer device. This will be equal to `connection.peerAddressType` if a public or static random address is used. Otherwise it will be `null` unless the address could be resolved using an IRK in the bond storage. If the address could be resolved, this value will contain the address type of the identity address. The identity address, compared to a resolvable address, doesn't change and can hence be used as an identifier.
 
 This value will also be changed after pairing has completed.
 
@@ -217,7 +217,7 @@ This value will also be changed after pairing has completed.
 
 {string} or {null}
 
-Contains the identity address of the peer device. This will be equal to `connection.peerAddress` if a public or static random address is used. Otherwise it will be `null` unless the address could be resolved using the an IRK in the bond storage. If the address could be resolved, this value will contain the identity address. The identity address, compared to a resolvable address, doesn't change and can hence be used as an identifier.
+Contains the identity address of the peer device. This will be equal to `connection.peerAddress` if a public or static random address is used. Otherwise it will be `null` unless the address could be resolved using an IRK in the bond storage. If the address could be resolved, this value will contain the identity address. The identity address, compared to a resolvable address, doesn't change and can hence be used as an identifier.
 
 This value will also be changed after pairing has completed.
 

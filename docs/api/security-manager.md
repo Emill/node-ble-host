@@ -133,7 +133,7 @@ If there is no listener for this event, the pairing features will automatically 
 * `associationModel` {number} A constant defining which association model being used, see `AssociationModels`
 * `userPasskey` {string} or {null} A passkey to display to the user
 * `callback` {Function} Callback for passing an entered passkey
-  * `passkeyResponse` {number}, {string} or {undefined} A 6-digit passkey the user has entered or `undefined` if the numeric comparison accociation model is used
+  * `passkeyResponse` {number}, {string} or {undefined} A 6-digit passkey the user has entered or `undefined` if the numeric comparison association model is used
 
 This event is emitted when the Passkey Exchange starts. For the relevant association models, the `userPasskey` should be displayed. If the user enters a passkey according to the association model, the callback should be called with the passkey the user enters. For the numeric comparison association model, the callback should be called with no parameters if the user confirms that both devices' values are equal, and otherwise call `sendPairingFailed` with the Numeric Comparison Failed error code.
 

@@ -3,7 +3,7 @@
 This implements support for Connection-Oriented Channel in LE Credit Based Flow Control Mode.
 
 ### PSMs
-PSM is short for Protocol/Service Multiplexer and serves as an identifier of a protocol/service when establishing a CoC. The currently valid values for LE PSMs are 0x0001 - 0x007f for fixed Bluetooth SIG-defined services, and 0x0080 - 0x00ff for dynamic "custom" services. The establishment is server-client-based, where a server registers a PSM so that clients can later connect to this service. Usually, for custom services, the server selects a PSM value in the range 0x0080 to 0x00ff which should be placed in the GATT db (in an implementation-defined way) so that the client can obtain the PSM. For custom setups where interopability is not required, the PSM can also be hardcoded by both the server and client.
+PSM is short for Protocol/Service Multiplexer and serves as an identifier of a protocol/service when establishing a CoC. The currently valid values for LE PSMs are 0x0001 - 0x007f for fixed Bluetooth SIG-defined services, and 0x0080 - 0x00ff for dynamic "custom" services. The establishment is server-client-based, where a server registers a PSM so that clients can later connect to this service. Usually, for custom services, the server selects a PSM value in the range 0x0080 to 0x00ff which should be placed in the GATT db (in an implementation-defined way) so that the client can obtain the PSM. For custom setups where interoperability is not required, the PSM can also be hardcoded by both the server and client.
 
 ## Class: L2CAPCoCManager
 

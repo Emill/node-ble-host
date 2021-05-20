@@ -66,6 +66,8 @@ npm install hci-socket
 
 In order to access the Bluetooth HCI layer from Node.js, either you will need to run `node` using `sudo` every time or execute ``sudo setcap cap_net_admin=ep $(eval readlink -f `which node`)`` first to give the `node` binary access to use Bluetooth HCI.
 
+Also it might be a good idea to turn off the bluetooth service `bluetoothd` so it doesn't interfere.
+
 ## API Documentation
 
 * [BleManager](docs/api/ble-manager.md)
@@ -82,13 +84,13 @@ The library is asynchronous and is built mostly around callbacks. Events that ca
 
 Most callbacks are passed an error code as the first argument, and the result value(s), if no error occurred, as the following argument(s).
 
-If an operation is to be executed within the context of a connection, for example a GATT Request, but the connection terminates before the response arrives, the corresponding callback will not be called. If logic is needed to handle this, that logic must be put in the `disconnect` event handler instead. Usually this results in cleaner code than having to handle the case that the connection dropped in every callback.
+If an operation is to be executed within the context of a connection, for example a GATT Request, but the connection terminates before the response arrives, the corresponding callback will not be called. If logic is needed to handle this, that logic must be put in the `disconnect` event handler instead. Usually this results in cleaner code compared to having to handle the case where the connection dropped in every callback.
 
 Compared to many other libraries, this implementation has a GATT Client object per connection, not per device. This means every GATT operation executes within the context of a connection. After a re-connection, attempting to execute a GATT operation on the `gatt` object of a previous connection will result in that nothing is sent. This means there will be no accidental writes to "wrong" connections, which is important if there is a state the remote device must be in when an operation is executed. Compare this with TCP connections, where you send data in the context of a socket, not in the context of a remote host.
 
 All GATT values can be either strings or Buffers when writing, but will always be Buffers when read. A string value will be automatically converted to a Buffer using UTF-8 encoding.
 
-## Full GATT Server Example
+## Full GATT Server Example (Peripheral)
 
 This example shows how to set up a peripheral with a GATT server with characteristics supporting read, write and notify.
 
@@ -115,6 +117,7 @@ var transport = new HciSocket(); // connects to the first hci device on the comp
 var options = {
     // optional properties go here
 };
+
 BleManager.create(transport, options, function(err, manager) {
     // err is either null or an Error object
     // if err is null, manager contains a fully initialized BleManager object
@@ -189,7 +192,7 @@ BleManager.create(transport, options, function(err, manager) {
 });
 ```
 
-## Full GATT Client Example
+## Full GATT Client Example (Central)
 
 This example shows how to scan for devices advertising a particular service uuid, connect to that device, and how to use GATT read, write operations and how to listen to notifications.
 
@@ -206,6 +209,7 @@ var transport = new HciSocket(); // connects to the first hci device on the comp
 var options = {
     // optional properties go here
 };
+
 BleManager.create(transport, options, function(err, manager) {
     // err is either null or an Error object
     // if err is null, manager contains a fully initialized BleManager object
@@ -470,3 +474,7 @@ conn.smp.on('pairingRequest', function(req, callback) {
     conn.smp.sendPairingFailed(SmpErrors.PAIRING_NOT_SUPPORTED);
 });
 ```
+
+## License
+
+Licensed under the ISC license. [See full license text](LICENSE.txt).

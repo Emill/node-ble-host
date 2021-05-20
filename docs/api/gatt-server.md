@@ -101,7 +101,7 @@ UUID of the characteristic. Mandatory property.
 ### characteristic.properties
 {string[]}
 
-Defines properties for this characteristic. This can be used to by the client to detect the available features for this characteristic. The following property strings can be included in the array:
+Defines properties for this characteristic. This can be used by the client to detect the available features for this characteristic. The following property strings can be included in the array:
 * `broadcast`
 * `read`
 * `write-without-response`
@@ -242,7 +242,7 @@ For Write Requests and Write Without Responses, this method will be called just 
 
 This optional method will be called when a write needs to be done. If this method is not present, the `value` property of the characteristic object is instead updated.
 
-In case for Prepared Writes, consecutive writes with offsets directly following the previous write to the same value are internally concatenated to the full value at the time the writes are commited. At that time this method will be called only once with the full value.
+In case for Prepared Writes, consecutive writes with offsets directly following the previous write to the same value are internally concatenated to the full value at the time the writes are committed. At that time this method will be called only once with the full value.
 
 The callback must be called when `needsResponse` is true. (Otherwise calling the callback is a NO-OP.)
 

@@ -1,0 +1,32 @@
+{
+	"name": "ble-host",
+	"version": "1.0.0",
+	"author": "Emil Lenngren",
+	"optionalDependencies": {
+		"hci-socket": "^1.0.0"
+	},
+	"main": "./lib/index.js",
+	"repository": "github:Emill/node-ble-host",
+	"homepage": "https://github.com/Emill/node-ble-host",
+	"bugs": "https://github.com/Emill/node-ble-host/issues",
+	"license": "ISC",
+	"keywords": [
+		"bluetooth",
+		"hci",
+		"noble",
+		"bleno",
+		"ble",
+		"bluetooth-le",
+		"bluetooth-low-energy",
+		"bluetooth low energy",
+		"BleManager",
+		"node-ble-host",
+		"NodeBleHost",
+		"ble-host",
+		"gatt",
+		"l2cap",
+		"central",
+		"peripheral"
+	],
+	"description": "A full-featured Bluetooth Low Energy (BLE) host stack written in JavaScript that lets you set up and program peripherals and centrals."
+}

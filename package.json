@@ -1,6 +1,6 @@
 {
 	"name": "ble-host",
-	"version": "1.0.0",
+	"version": "1.0.2",
 	"author": "Emil Lenngren",
 	"optionalDependencies": {
 		"hci-socket": "^1.0.0"

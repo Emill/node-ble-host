@@ -97,7 +97,7 @@ The current balance for TX packets. If this is positive, indicates how many LE-f
 List of L2CAP CoC errors for accepting or rejecting a connection.
 
 ```javascript
-const NodeBleHost = require('node-ble-host');
+const NodeBleHost = require('ble-host');
 const L2CAPCoCErrors = NodeBleHost.L2CAPCoCErrors;
 ```
 

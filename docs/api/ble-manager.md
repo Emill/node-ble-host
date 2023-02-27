@@ -313,7 +313,7 @@ This event indicates the link has finally been terminated. All objects having th
 List of HCI Error codes.
 
 ```javascript
-const NodeBleHost = require('node-ble-host');
+const NodeBleHost = require('ble-host');
 const HciErrors = NodeBleHost.HciErrors;
 ```
 

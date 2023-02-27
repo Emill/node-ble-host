@@ -8,7 +8,7 @@ Utility class for constructing advertising packets into byte arrays.
 Example:
 
 ```javascript
-const NodeBleHost = require('node-ble-host');
+const NodeBleHost = require('ble-host');
 const AdvertisingDataBuilder = NodeBleHost.AdvertisingDataBuilder;
 
 const advDataBuffer = new AdvertisingDataBuilder()

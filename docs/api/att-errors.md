@@ -3,7 +3,7 @@
 List of Attribute protocol errors.
 
 ```javascript
-const NodeBleHost = require('node-ble-host');
+const NodeBleHost = require('ble-host');
 const AttErrors = NodeBleHost.AttErrors;
 ```
 

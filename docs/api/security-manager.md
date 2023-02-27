@@ -189,7 +189,7 @@ Emitted when the pairing protocol times out (30 seconds after the last packet). 
 List of reason codes why pairing failed.
 
 ```javascript
-const NodeBleHost = require('node-ble-host');
+const NodeBleHost = require('ble-host');
 const SmpErrors = NodeBleHost.SmpErrors;
 ```
 
@@ -226,7 +226,7 @@ Returns the corresponding key (e.g. `PASSKEY_ENTRY_FAILED`) for a given code, or
 Enumeration of I/O capabilities.
 
 ```javascript
-const NodeBleHost = require('node-ble-host');
+const NodeBleHost = require('ble-host');
 const IOCapabilities = NodeBleHost.IOCapabilities;
 ```
 
@@ -248,7 +248,7 @@ Returns the corresponding key (e.g. `DISPLAY_ONLY`) for a given code, or `(unkno
 Enumeration of association models.
 
 ```javascript
-const NodeBleHost = require('node-ble-host');
+const NodeBleHost = require('ble-host');
 const AssociationModels = NodeBleHost.AssociationModels;
 ```
 
